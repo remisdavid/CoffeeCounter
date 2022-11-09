@@ -14,8 +14,7 @@
 <body>
     <nav class="main-navigation">
         <a class="logo" href="#">
-            <svg width="32" height="32" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg width="32" height="32" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
                 <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
                 <path d="M6 1v3"></path>
@@ -45,26 +44,36 @@
             <a href="#Add" class="btn">Začít</a>
         </section>
         <section class="add" id="Add">
-            <form id="AddCoffeForm" method="post" action="">
+            <form id="AddCoffeForm" name="addCoffeForm" method="post" >
+                <span ></span>
                 <div>
                     <label for="user">Osoba:</label>
                     <select name="user" id="FormUsers">
                         <option value="0">Vyberte osobu: </option>
-                        
                     </select>
                 </div>
                 <div>
-                    <label for="type[]">Typ nápoje:</label>
-                    <select name="type[]" id="FormDrinks">
+                    <label for="type">Typ nápoje:</label>
+                    <select name="type" id="FormDrinks">
                         <option value="0">Vyberte nápoj: </option>
-
                     </select>
                 </div>
                 <input type="submit" value="Potvrdit">
             </form>
         </section>
         <section class="summary" id="Summary">
+            <table id="SummaryTable">
+                <thead>
+                    <tr>
+                        <th>Osoba</th>
+                        <th>Název kávy</th>
+                        <th>Počet</th>
+                    </tr>
+                </thead>
+                <tbody>
 
+                </tbody>
+            </table>
         </section>
     </main>
 
