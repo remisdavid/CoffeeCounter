@@ -207,7 +207,3 @@ td) {
     border-bottom: 1px solid var(--cl-primary);
     transition-duration: .3s;
 }
-
-#SummaryTable tr:hover {
-    /*background-color: var(--cl-primary);*/
-}

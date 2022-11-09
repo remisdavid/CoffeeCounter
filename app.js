@@ -3,7 +3,11 @@ function getData(url) {
         type: 'GET',
         url: url,
         dataType: 'json',
-        async: false
+        async: false,
+        origin: null,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(`coffe:kafe`));
+        }
     })).responseJSON
 }
 
@@ -33,6 +37,10 @@ class CoffeeForm {
                         url: 'http://ajax1.lmsoft.cz/procedure.php?cmd=saveDrinks',
                         data: $("#AddCoffeForm").serialize(),
                         async: false,
+                        origin: null,
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(`coffe:kafe`));
+                        },
                         success: function (data) {
                             console.log(data);
                         }
@@ -43,6 +51,20 @@ class CoffeeForm {
             }
 
             return false
+        }
+
+
+
+        if (localStorage.getItem("typeID") == null) {
+            this.typesElement.value = 0
+        } else {
+            this.typesElement.value = localStorage.getItem("typeID")
+        }
+
+        if (localStorage.getItem("userID") == null) {
+            this.usersElement.value = 0
+        } else {
+            this.usersElement.value = localStorage.getItem("userID")
         }
 
     }
@@ -59,6 +81,8 @@ class CoffeeForm {
                 throw "Typ pití není vyplněn"
             }
 
+            localStorage.setItem("userID", document.forms["addCoffeForm"]["user"].value)
+            localStorage.setItem("typeID", document.forms["addCoffeForm"]["type"].value)
             return true
         } catch (error) {
             return error
