@@ -46,13 +46,13 @@
         <section class="add" id="Add">
             <form id="AddCoffeForm" name="addCoffeForm" method="post" >
                 <span ></span>
-                <div>
+                <div class="inputContainer">
                     <label for="user">Osoba:</label>
                     <select name="user" id="FormUsers">
                         <option value="0">Vyberte osobu: </option>
                     </select>
                 </div>
-                <div>
+                <div class="inputContainer">
                     <label for="type">Typ nápoje:</label>
                     <select name="type" id="FormDrinks">
                         <option value="0">Vyberte nápoj: </option>
@@ -62,6 +62,23 @@
             </form>
         </section>
         <section class="summary" id="Summary">
+            <div class="summaryFilter">
+                <div class="inputContainer">
+                    <label for="summaryUser">Uživatel:</label>
+                    <select id="summaryUser" name="summaryUser">
+                        <option value="0">Vyberte osobu:</option>
+                    </select>
+                </div>
+                <div class="inputContainer">
+                    <label for="summaryTo">Datum od:</label>
+                    <input type="date" id="summaryTo" name="summaryTo">
+                </div>
+                <div class="inputContainer">
+                    <label for="summaryFrom">Datum do:</label>
+                    <input type="date" id="summaryFrom" name="summaryFrom">
+                </div>
+                <button>Filtrovat</button>
+            </div>
             <table id="SummaryTable">
                 <thead>
                     <tr>
