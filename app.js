@@ -17,12 +17,8 @@ class CoffeeForm {
         this.typesElement = document.getElementById("FormDrinks");
         this.usersElement = document.getElementById("FormUsers");
 
-        this.users = getData('http://ajax1.lmsoft.cz/procedure.php?cmd=getPeopleList')
-        this.types = getData('http://ajax1.lmsoft.cz/procedure.php?cmd=getTypesList')
-
         this.toastElement = frm.getElementsByTagName("span")[0]
 
-        this.generateForm()
 
         frm.onsubmit = (event) => {
             event.preventDefault();
@@ -95,38 +91,13 @@ class CoffeeForm {
             this.toastElement.classList.add('active')
         }
     }
-
-    generateForm() {
-        for (let i = 0; i < 3; i++) {
-            let user = this.users[i + 1];
-            this.usersElement.innerHTML += `<option value=\"${user.ID}\">${user.name}</option>`
-        }
-
-        for (let i = 0; i < 5; i++) {
-            let type = this.types[i + 1];
-            this.typesElement.innerHTML += `<option value=\"${i + 1}\">${type.typ}</option>`
-        }
-    }
-
-
-
 }
 
 class SummaryTable {
     constructor(tbl) {
         this.tableElement = tbl;
-        this.refresh()
+        this.tbody = this.tableElement.getElementsByTagName('tbody')[0]
     }
-
-    refresh() {
-        let data = getData('http://ajax1.lmsoft.cz/procedure.php?cmd=getSummaryOfDrinks');
-        let tbody = this.tableElement.getElementsByTagName('tbody')[0]
-        data.forEach(personData => {
-            tbody.innerHTML += `<tr><td>${personData[2]}</td><td>${personData[0]}</td><td>${personData[1]}</td></tr>`
-        });
-
-    }
-
 
 }
 
