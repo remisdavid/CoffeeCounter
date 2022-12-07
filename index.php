@@ -12,6 +12,51 @@
 </head>
 
 <body>
+    <?php
+
+        $servername = "localhost:3306";
+        $username = "root";
+        $password = "";
+        $db = "coffecounter";
+
+        // Create connection
+        $conn = mysqli_connect($servername, $username, $password, $db);
+
+        // Check connection
+        if (!$conn) {
+            echo ("Nepodařilo se připojit k databázi");
+        }
+
+        $sql = "SELECT p.ID, p.name FROM people as p";
+        $people = array();
+        $query = $conn->query($sql);
+        while ($row = $query->fetch_assoc()) {
+            $people[$row["ID"]] = $row["name"];
+        }
+
+        $sql = "SELECT t.ID, t.typ FROM types as t";
+        $types = array();
+        $query = $conn->query($sql);
+        while ($row = $query->fetch_assoc()) {
+            $types[$row["ID"]] = $row["typ"];
+        }
+
+        function printUsersOption(array $users)
+        {
+            foreach ($users as $id => $name) {
+                echo "<option value=\"{$id}\">{$name}</option>";
+            }
+        }
+
+        function printTypesOption(array $types)
+        {
+            foreach ($types as $id => $typ) {
+                echo "<option value=\"{$id}\">{$typ}</option>";
+            }
+        }
+
+
+        ?>
     <nav class="main-navigation">
         <a class="logo" href="#">
             <svg width="32" height="32" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -45,47 +90,7 @@
             <a href="#Add" class="btn">Začít</a>
         </section>
 
-        <?php
 
-        $servername = "localhost:3306";
-        $username = "root";
-        $password = "";
-        $db = "coffecounter";
-
-        // Create connection
-        $conn = mysqli_connect($servername, $username, $password, $db);
-
-        // Check connection
-        if (!$conn) {
-            echo ("Nepodařilo se připoji k databázi");
-        }
-
-        $sql = "SELECT p.ID, p.name FROM people as p";
-        $usersQuery = $conn->query($sql);
-
-        function printUsersOption(mysqli_result $users)
-        {
-            while ($row = $users->fetch_assoc()) {
-                echo "<option value=\"{$row["ID"]}\">{$row["name"]}</option>";
-            }
-        }
-
-        $sql = "SELECT t.ID, t.typ FROM types as t";
-        $types = array();
-        $query = $conn->query($sql);
-        while ($row = $query->fetch_assoc()) {
-            $types[$row["ID"]] = $row["typ"];
-        }
-
-        function printTypesOption(array $types)
-        {
-            foreach($types as $id => $typ){
-                echo "<option value=\"{$id}\">{$typ}</option>";
-            }
-        }
-
-
-        ?>
 
         <section class="add" id="Add">
             <form id="AddCoffeForm" name="addCoffeForm" method="post">
@@ -95,8 +100,8 @@
                     <select name="user" id="FormUsers">
                         <option value="0">Vyberte osobu: </option>
                         <?php
-                        printUsersOption($usersQuery);
-                            ?>
+                        printUsersOption($people);
+                        ?>
                     </select>
                 </div>
                 <div class="inputContainer">
@@ -105,7 +110,7 @@
                         <option value="0">Vyberte nápoj: </option>
                         <?php
                         printTypesOption($types);
-                            ?>
+                        ?>
                     </select>
                 </div>
                 <input type="submit" value="Potvrdit">
@@ -113,27 +118,27 @@
         </section>
         <section class="summary" id="Summary">
             <form action="index.php" method="post">
-            <div class="summaryFilter">
-                <div class="inputContainer">
-                    <label for="summaryUser">Osoba:</label>
-                    <select name="summaryUser" id="SummaryUser">
-                        <option value="0">Vyberte osobu: </option>
-                        <?php
-                        printUsersOption($usersQuery);
-                        ?>
-                    </select>
-                </div>
-                <div class="inputContainer">
-                    <label for="summaryDateFrom">Datum od:</label>
-                    <input type="date" id="SummaryDateFrom" min="2000-01-01">
-                </div>
-                <div class="inputContainer">
-                    <label for="summaryDateTo">Datum do:</label>
-                    <input type="date" id="SummaryDateTo" max="2030-01-01">
-                </div>
+                <div class="summaryFilter">
+                    <div class="inputContainer">
+                        <label for="summaryUser">Osoba:</label>
+                        <select name="summaryUser" id="SummaryUser">
+                            <option value="0">Vyberte osobu: </option>
+                            <?php
+                                printUsersOption($people);
+                            ?>
+                        </select>
+                    </div>
+                    <div class="inputContainer">
+                        <label for="summaryDateFrom">Datum od:</label>
+                        <input type="date" name="summaryDateFrom" id="SummaryDateFrom">
+                    </div>
+                    <div class="inputContainer">
+                        <label for="summaryDateTo">Datum do:</label>
+                        <input type="date" name="summaryDateTo" id="SummaryDateTo">
+                    </div>
 
-                <input type="submit" value="Filtrovat">
-            </div>
+                    <input type="submit" value="Filtrovat">
+                </div>
             </form>
             <table id="SummaryTable">
                 <thead>
@@ -141,36 +146,48 @@
                         <th>Osoba</th>
                         <th>Název kávy</th>
                         <th>Počet</th>
+                        <th>Cena</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
                     try {
-                        if(!empty($_POST["summaryUser"])){
+                        $conditions = "WHERE 1=1";
+
+                        if (!empty($_POST["summaryUser"])) {
                             $userID = $_POST["summaryUser"];
-                            echo("anshbdz");
+                            $conditions .= " AND p.ID = " . $userID;
                         }
-                        
-                        
+
+                        if (!empty($_POST["summaryDateFrom"])) {
+                            $dateFrom = $_POST["summaryDateFrom"];
+                            $conditions .= " AND d.date > '" . $dateFrom . "'";
+
+                        }
+
+                        if (!empty($_POST["summaryDateTo"])) {
+                            $dateTo = $_POST["summaryDateTo"];
+                            $conditions .= " AND d.date < '" . $dateTo . "'";
+
+                        }
+
                     } catch (\Throwable $th) {
-                        
+
                     }
 
 
-                    function printRow($user, $coffee_name, $amount)
+                    function printRow($user, $coffee_name, $amount,$cost)
                     {
-                        echo ("<tr><td>{$user}</td><td>{$coffee_name}</td><td>{$amount}</td></tr>");
+                        echo ("<tr><td>{$user}</td><td>{$coffee_name}</td><td>{$amount}</td><td>{$cost}</td></tr>");
+                    }
+                    $sql = "SELECT p.name,t.typ, amount, (t.cost * amount) as cost FROM (SELECT d.id_people,d.id_types,COUNT(ID) as amount,d.date from drinks as d GROUP BY d.id_people,d.id_types) as d INNER JOIN types as t on t.ID = d.id_types INNER JOIN people as p on p.ID = d.id_people {$conditions} ORDER BY p.name, amount DESC";
+                    $query = $conn->query($sql);
+
+                    while ($row = $query->fetch_assoc()) {
+                        printRow($row["name"], $row["typ"], $row["amount"], $row["cost"]);
                     }
 
-                    $sql = "SELECT p.name,t.typ, amount FROM (SELECT d.id_people,d.id_types,COUNT(ID) as amount from drinks as d GROUP BY d.id_people,d.id_types) as d INNER JOIN types as t on t.ID = d.id_types INNER JOIN people as p on p.ID = d.id_people ORDER BY p.name, amount DESC";
-                    $result = $conn->query($sql);
-
-                    if ($result->num_rows > 0) {
-                        // output data of each row
-                        while ($row = $result->fetch_assoc()) {
-                            printRow($row["name"], $row["typ"], $row["amount"]);
-                        }
-                    }
+                    
 
                     ?>
 
