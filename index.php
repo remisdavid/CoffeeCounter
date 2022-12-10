@@ -156,7 +156,7 @@
 
                         if (!empty($_POST["summaryUser"])) {
                             $userID = $_POST["summaryUser"];
-                            $conditions .= " AND p.ID = " . $userID;
+                            $conditions .= " AND d.id_people = " . $userID;
                         }
 
                         if (!empty($_POST["summaryDateFrom"])) {
@@ -180,7 +180,8 @@
                     {
                         echo ("<tr><td>{$user}</td><td>{$coffee_name}</td><td>{$amount}</td><td>{$cost}</td></tr>");
                     }
-                    $sql = "SELECT p.name,t.typ, amount, (t.cost * amount) as cost FROM (SELECT d.id_people,d.id_types,ANY(COUNT(ID) as amount),ANY(d.date) from drinks as d GROUP BY d.id_people,d.id_types) as d INNER JOIN types as t on t.ID = d.id_types INNER JOIN people as p on p.ID = d.id_people {$conditions} ORDER BY p.name, amount DESC";
+                    $sql = "SELECT p.name,t.typ, amount, (t.cost * amount) as cost FROM (SELECT d.id_people,d.id_types,COUNT(ID) as amount from drinks as d {$conditions} GROUP BY d.id_people,d.id_types) as d INNER JOIN types as t on t.ID = d.id_types INNER JOIN people as p on p.ID = d.id_people ORDER BY p.name, amount DESC";
+                    
                     $query = $conn->query($sql);
 
                     while ($row = $query->fetch_assoc()) {
