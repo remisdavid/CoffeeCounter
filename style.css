@@ -76,14 +76,14 @@ main.main-content {
 }
 
 main.main-content>section {
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 8px;
-    padding: 0 var(--cs-side-padding);
+    padding: 10vh var(--cs-side-padding);
 }
 
 main.main-content>section:nth-child(even) {
@@ -159,17 +159,17 @@ section.add>form>span:not(.active){
     }
 }
 
-section.add>form>div {
+.inputContainer{
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
-section.add>form>div label {
+.inputContainer label {
     font-size: .9em;
 }
 
-section.add>form>div select {
+.inputContainer :is(select,input) {
     height: 48px;
     border-radius: 8px;
     background-color: var(--cl-white);
@@ -177,7 +177,7 @@ section.add>form>div select {
     padding: 4px;
 }
 
-section.add>form>input[type="submit"] {
+input[type="submit"],button {
     height: 48px;
     border-radius: 8px;
     background-color: var(--cl-primary);
@@ -187,7 +187,7 @@ section.add>form>input[type="submit"] {
     cursor: pointer;
 }
 
-section.add>form>input[type="submit"]:hover {
+:is(input[type="submit"],button):hover {
     background-color: var(--cl-primary-alt);
     border-color: var(--cl-primary-alt);
 }
@@ -206,4 +206,21 @@ td) {
 #SummaryTable tr {
     border-bottom: 1px solid var(--cl-primary);
     transition-duration: .3s;
+}
+
+section.summary .summaryFilter{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 16px;
+}
+
+@media only screen and (max-width: 758px) {
+    section.summary .summaryFilter{
+        flex-direction: column;
+    }
+
+    .summaryFilter > *{
+        width: 100%;
+    }
 }
