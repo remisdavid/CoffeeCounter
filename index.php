@@ -14,10 +14,10 @@
 <body>
     <?php
 
-        $servername = "localhost:3306";
-        $username = "root";
-        $password = "";
-        $db = "coffecounter";
+        $servername = "sql6.webzdarma.cz:3306";
+        $username = "remischytrak6489";
+        $password = "hs^O00MT7#0#)-7d&,8G";
+        $db = "remischytrak6489";
 
         // Create connection
         $conn = mysqli_connect($servername, $username, $password, $db);
@@ -180,7 +180,7 @@
                     {
                         echo ("<tr><td>{$user}</td><td>{$coffee_name}</td><td>{$amount}</td><td>{$cost}</td></tr>");
                     }
-                    $sql = "SELECT p.name,t.typ, amount, (t.cost * amount) as cost FROM (SELECT d.id_people,d.id_types,COUNT(ID) as amount,d.date from drinks as d GROUP BY d.id_people,d.id_types) as d INNER JOIN types as t on t.ID = d.id_types INNER JOIN people as p on p.ID = d.id_people {$conditions} ORDER BY p.name, amount DESC";
+                    $sql = "SELECT p.name,t.typ, amount, (t.cost * amount) as cost FROM (SELECT d.id_people,d.id_types,ANY(COUNT(ID) as amount),ANY(d.date) from drinks as d GROUP BY d.id_people,d.id_types) as d INNER JOIN types as t on t.ID = d.id_types INNER JOIN people as p on p.ID = d.id_people {$conditions} ORDER BY p.name, amount DESC";
                     $query = $conn->query($sql);
 
                     while ($row = $query->fetch_assoc()) {
