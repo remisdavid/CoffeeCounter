@@ -2,32 +2,19 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="style.css">
-    <script src="app.js" defer></script>
+    <?php
+        include("head.php")
+    
+    ?>
 </head>
 
 <body>
     <?php
 
-        $servername = "sql6.webzdarma.cz:3306";
-        $username = "remischytrak6489";
-        $password = "hs^O00MT7#0#)-7d&,8G";
-        $db = "remischytrak6489";
+        //include("src/connection.php")
 
-        // Create connection
-        $conn = mysqli_connect($servername, $username, $password, $db);
 
-        // Check connection
-        if (!$conn) {
-            echo ("Nepodařilo se připojit k databázi");
-        }
-
-        $sql = "SELECT p.ID, p.name FROM people as p";
+        /*$sql = "SELECT p.ID, p.name FROM people as p";
         $people = array();
         $query = $conn->query($sql);
         while ($row = $query->fetch_assoc()) {
@@ -54,34 +41,11 @@
                 echo "<option value=\"{$id}\">{$typ}</option>";
             }
         }
-
+*/
 
         ?>
-    <nav class="main-navigation">
-        <a class="logo" href="#">
-            <svg width="32" height="32" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
-                <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
-                <path d="M6 1v3"></path>
-                <path d="M10 1v3"></path>
-                <path d="M14 1v3"></path>
-            </svg>
-            <p>CoffeeCounter</p>
-        </a>
 
-        <ul class="navigation">
-            <a href="#Home">
-                <li class="nav-item">Domů</li>
-            </a>
-            <a href="#Add">
-                <li class="nav-item">Přidat</li>
-            </a>
-            <a href="#Summary">
-                <li class="nav-item">Přehled</li>
-            </a>
-        </ul>
-    </nav>
+    <?php include("navigation.php") ?>
 
     <main class="main-content">
         <section class="home" id="Home">
