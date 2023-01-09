@@ -1,21 +1,43 @@
-<?php
-ob_start();
-session_start();
-?>
-<?php
 
-if (!empty($_POST['username']) && !empty($_POST['password'])) {
-    if ($_POST['username'] == 'lm' && $_POST['password'] == 'test') {
-        $_SESSION['valid'] = true;
-        $_SESSION['timeout'] = time();
-        $_SESSION['username'] = 'lm';
+<?php
+    include("connection.php");
+    session_start();
 
-        header("Location: index.php");
-        die();
-    } else {
-        $msg = 'Špatné údaje';
+    if (isset($_SESSION['logged_in'])) {
+        if ($_SESSION['logged_in']) {
+            header('Location: index.php');
+            exit;
+        }
     }
-}
+
+    if (isset($_POST['username']) && isset($_POST['password'])){
+        if (!empty($_POST['username']) && !empty($_POST['password'])) {
+            $sql = "SELECT id, username, password, first_name, last_name, role_id FROM user";
+            $query = $conn->query($sql);
+            while ($row = $query->fetch_assoc()) {
+                if($row["username"] == $_POST['username'] && $row["password"] == $_POST['password'] ){
+
+                    $_SESSION['user_first_name'] = $row["first_name"];
+                    $_SESSION['user_last_name'] = $row["last_name"];
+                    $_SESSION['user_permission_level'] = $row["role_id"];
+                    $_SESSION['logged_in'] = true;
+
+                    break;
+                }
+            }
+
+            if (isset($_SESSION['logged_in'])) {
+                if ($_SESSION['logged_in']) {
+                    header('Location: index.php');
+                    exit;
+                }
+            } else {
+                $msg = 'Špatné přihlašovací údaje';
+            }   
+            
+        }
+    }
+
 ?>
 
 
@@ -24,7 +46,6 @@ if (!empty($_POST['username']) && !empty($_POST['password'])) {
 
 <head>
     <?php include("head.php") ?>
-
 </head>
 
 <body>
@@ -40,7 +61,6 @@ if (!empty($_POST['username']) && !empty($_POST['password'])) {
                         </div>
                 <?php
                     }
-                    
                 ?>
             
             </div>
@@ -55,7 +75,7 @@ if (!empty($_POST['username']) && !empty($_POST['password'])) {
             <div class="row">
                 <div class="col-md">
                     <div class="form-floating">
-                        <input type="text" name="password" class="form-control" id="password" placeholder="Heslo" value="">
+                        <input type="password" name="password" class="form-control" id="password" placeholder="Heslo" value="">
                         <label for="password">Heslo</label>
                     </div>
                 </div>

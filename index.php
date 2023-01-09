@@ -4,17 +4,15 @@
 <head>
     <?php
         include("head.php")
-    
     ?>
 </head>
 
 <body>
     <?php
 
-        //include("src/connection.php")
 
-
-        /*$sql = "SELECT p.ID, p.name FROM people as p";
+/*      
+        $sql = "SELECT p.ID, p.name FROM people as p";
         $people = array();
         $query = $conn->query($sql);
         while ($row = $query->fetch_assoc()) {
@@ -45,7 +43,10 @@
 
         ?>
 
-    <?php include("navigation.php") ?>
+    <?php 
+        include("navigation.php")
+
+    ?>
 
     <main class="main-content">
         <section class="home" id="Home">
