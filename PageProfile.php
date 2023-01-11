@@ -14,7 +14,10 @@ if(isset($_POST['user'])){
     if (is_numeric($_POST['user'])) {
         $filter = "AND user_id = " . $_POST['user'];
     }
+} else {
+    $filter = "AND user_id = " . $_SESSION['user_id'];
 }
+
 
 ?>
 

@@ -25,7 +25,7 @@ if (isset($_POST['drink'])){
 }
 
 header('Content-Type: text/csv');
-header('Content-Disposition: attachment; filename=data.csv');
+header('Content-Disposition: attachment; filename=prehled.csv');
 
 $output = fopen('php://output', 'w');
 fputcsv($output, array_values(array('Uživatel', 'Nápoj', 'Počet', 'Cena')), ';', ' ');
