@@ -6,23 +6,42 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <?php
+        if($_SESSION['logged_in']){
+          ?>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="PageConsumption.php">Přidat</a>
+          <a class="nav-link active" aria-current="page" href="PageConsumption.php">Vypil jsem</a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="PageSummary.php">Přehled</a>
         </li>
+        <?php
+        if ($_SESSION['user_permission_level'] == 1) {
+          ?>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="PageDrink.php">Upravit nápoj</a>
+        </li>
+        <?php
+        }
+        ?>
+
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="PageStock.php">Koupil jsem</a>
+        </li>
+        <?php
+        }
+        ?>
       </ul>
       <span class="navbar-text">
         <?php
-        if(!isset($_SESSION['logged_in'])){
+        if(!$_SESSION['logged_in']){
           ?>
           <a class="btn btn-primary" href="PageLogin.php" role="button">Přihlásit se</a>
         <?php
         }else{
         ?>
-
-        <button type="button" class="btn btn-dark"><?php echo($_SESSION['user_first_name'] . " " . $_SESSION['user_last_name'])?></button>
+          <a class="btn btn-dark" href="PageProfile.php" role="button"><?php echo($_SESSION['user_first_name'] . " " . $_SESSION['user_last_name'])?></a>
+          <a class="btn btn-outline-danger" href="ToolLogout.php" role="button">Odhlásit se</a>
         <?php
         }
         ?>

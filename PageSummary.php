@@ -1,6 +1,14 @@
 <?php include("connection.php") ?>
 
 <?php
+if (!$_SESSION['logged_in']) {
+    header('Location: index.php');
+    exit();
+}
+
+?>
+
+<?php
 
 $filter = 'WHERE 1=1';
 
@@ -31,7 +39,7 @@ if (isset($_POST['drink'])){
     <?php include("FragmentNavigation.php") ?>
 
     <div class="container text-center p-3">
-
+        <h1>Přehled</h1>
         <form action="PageSummary.php" method="post">
             <div class="row p-3">
                 <div class="col-md-4">

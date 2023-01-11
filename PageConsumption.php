@@ -1,6 +1,14 @@
 <?php include("connection.php") ?>
 
 <?php
+if (!$_SESSION['logged_in']) {
+    header('Location: index.php');
+    exit();
+}
+
+?>
+
+<?php
 
 if (isset($_POST['user']) && isset($_POST['drink'])) {
 
@@ -34,6 +42,7 @@ if (isset($_POST['user']) && isset($_POST['drink'])) {
     <?php include("FragmentNavigation.php") ?>
 
     <div class="position-absolute top-50 start-50 translate-middle">
+        <h1>Vypil jsem</h1>
         <form action="PageConsumption.php" method="post" class="row gap-3">
             <div class="row">
                 <?php

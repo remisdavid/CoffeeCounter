@@ -1,18 +1,12 @@
-<?php include("connection.php") ?>
+<?php
 
-<!DOCTYPE html>
-<html lang="en">
+session_start();
 
-<head>
-    <?php include("FragmentHead.php") ?>
-</head>
+if ($_SESSION['logged_in']) {
+    header('Location: PageConsumption.php');
+} else {
+    header('Location: PageLogin.php');
+}
 
-<body>
-
-    <?php include("FragmentNavigation.php") ?>
-
-
-
-</body>
-
-</html>
+exit();
+?>

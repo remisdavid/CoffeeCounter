@@ -3,9 +3,9 @@
 <?php
 
 
-if (isset($_SESSION['logged_in'])) {
+if ($_SESSION['logged_in']) {
     if ($_SESSION['logged_in']) {
-        header('Location: PageIndex.php');
+        header('Location: index.php');
         exit;
     }
 }
@@ -16,7 +16,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         $query = $conn->query($sql);
         while ($row = $query->fetch_assoc()) {
             if ($row["username"] == $_POST['username'] && $row["password"] == $_POST['password']) {
-
+                $_SESSION['user_id'] = $row["id"];
                 $_SESSION['user_first_name'] = $row["first_name"];
                 $_SESSION['user_last_name'] = $row["last_name"];
                 $_SESSION['user_permission_level'] = $row["role_id"];
@@ -26,7 +26,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
             }
         }
 
-        if (isset($_SESSION['logged_in'])) {
+        if ($_SESSION['logged_in']) {
             if ($_SESSION['logged_in']) {
                 header('Location: index.php');
                 exit;
@@ -52,7 +52,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     <?php include("FragmentNavigation.php") ?>
 
     <div class="position-absolute top-50 start-50 translate-middle">
-        <form action="login.php" method="post" class="row gap-3">
+        <form action="PageLogin.php" method="post" class="row gap-3">
             <div class="row">
                 <?php
                 if (isset($msg)) {
