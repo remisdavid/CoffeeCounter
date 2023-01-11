@@ -9,13 +9,11 @@ if (!$_SESSION['logged_in']) {
 ?>
 
 <?php
-
+$filter = "";
 if(isset($_POST['user'])){
-    $_SESSION['tmp_user'] = $_POST['user'];
-    header('Location: index.php');
-    exit();
-} else {
-    $filter = $_SESSION['user_id'];
+    if (is_numeric($_POST['user'])) {
+        $filter = "AND user_id = " . $_POST['user'];
+    }
 }
 
 ?>
@@ -83,7 +81,7 @@ if(isset($_POST['user'])){
                         $sql = "SELECT d.name, COUNT(c.ID) as consumption
                         FROM consumption as c
                         LEFT JOIN drinktype as d ON d.ID = c.drinktype_id
-                        WHERE user_id = " . $filter . "
+                        WHERE 1=1 " . $filter . " AND c.date BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE()
                         GROUP BY user_id, drinktype_id";
 
                         $query = $conn->query($sql);
@@ -118,6 +116,7 @@ if(isset($_POST['user'])){
                             SELECT user_id, (COUNT(c.ID) * d.size) * 0.3 as price
                             FROM consumption as c
                             INNER JOIN drinktype as d ON d.ID = c.drinktype_id AND d.is_coffee = 1
+                            WHERE c.date BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE()
                             GROUP BY user_id, drinktype_id
                             
                             UNION
@@ -125,9 +124,10 @@ if(isset($_POST['user'])){
                             SELECT user_id, (COUNT(c.ID) * d.size) * 0.002 as price
                             FROM consumption as c
                             INNER JOIN drinktype as d ON d.ID = c.drinktype_id AND d.is_coffee = 0
+                            WHERE c.date BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE()
                             GROUP BY user_id, drinktype_id
                         ) as tmp
-                        WHERE user_id = " . $filter;
+                        WHERE 1=1 " . $filter;
 
                 $query = $conn->query($sql);
 
