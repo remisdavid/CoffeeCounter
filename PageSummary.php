@@ -40,7 +40,7 @@ if (isset($_POST['drink'])){
 
     <div class="container text-center p-3">
         <h1>Přehled</h1>
-        <form action="PageSummary.php" method="post">
+        <form action="PageSummary.php" method="post" id="summaryForm">
             <div class="row p-3">
                 <div class="col-md-4">
 
@@ -85,6 +85,15 @@ if (isset($_POST['drink'])){
                 <div class="col-md">
                     <input class="btn btn-primary" type="submit" value="Filtrovat">
                     <a href="ToolSummaryReset.php" role="button" class="btn btn-outline-secondary">Resetovat</a>
+                    <input class="btn btn-primary" type="submit" id="export" value="Exportovat">
+
+                    <script>
+                        document.getElementById('export').addEventListener('click', () => {
+                            document.getElementById('summaryForm').action = "ToolExport.php";
+
+                        })
+
+                    </script>
                 </div>
             </div>
         </form>
